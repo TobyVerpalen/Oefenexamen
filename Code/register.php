@@ -37,3 +37,15 @@ require_once 'classes/classUser.php';
         }
     }
     ?>
+
+<h2>Registratie</h2>
+    <form method="POST" action="">
+        <input type="text" name="username" placeholder="Gebruikersnaam" required><br><br>
+        <input type="email" name="email" placeholder="E-mail" required><br><br>
+        <input type="password" name="password" placeholder="Wachtwoord" required><br><br>
+        <button type="submit">Registreren</button>
+        <p><a href="index.php">Login</a></p>
+    </form>
+</body>
+
+</html>
