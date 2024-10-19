@@ -97,5 +97,35 @@ class VotingPage {
         echo "</body>";
         echo "</html>";
     }
+
+    // Check if the user has already voted
+    private function hasUserVoted($userId) {
+        $conn = $this->db->getConnection();
+        $sqlCheckVote = "SELECT COUNT(*) FROM votes WHERE user_id = :user_id";
+        $stmt = $conn->prepare($sqlCheckVote);
+        $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
+        $stmt->execute();
+        $voteCount = $stmt->fetchColumn();
+        return $voteCount > 0;
+    }
+
+    // The recordVote method should be defined only once in this class
+    public function recordVote($userId, $candidateId) {
+        $conn = $this->db->getConnection();
+
+        // Prepare an SQL statement to insert the vote
+        $sqlInsertVote = "INSERT INTO votes (user_id, candidate_id) VALUES (:user_id, :candidate_id)";
+        $stmt = $conn->prepare($sqlInsertVote);
+
+        // Bind parameters
+        $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
+        $stmt->bindParam(':candidate_id', $candidateId, PDO::PARAM_INT);
+
+        // Execute the insert statement
+        $stmt->execute();
+
+        // Store the selected candidate's information in the session
+        $_SESSION['selected_candidate_id'] = $candidateId;
+    }
 }
 ?>
